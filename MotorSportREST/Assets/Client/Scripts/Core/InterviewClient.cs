@@ -82,7 +82,9 @@ namespace Client.Core
                     }
                 }
 
+                //specify application type to post to
                 webRequest.uploadHandler.contentType = defaultContentType;
+                //include data to upload
                 webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(body));
 
                 yield return webRequest.SendWebRequest();
