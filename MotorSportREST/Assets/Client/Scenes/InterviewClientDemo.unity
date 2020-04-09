@@ -379,7 +379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 519, y: -147}
+  m_AnchoredPosition: {x: 519, y: -124}
   m_SizeDelta: {x: 1000, y: 286.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &785651895
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -18.893555, y: -4.0637207, z: -206.4718, w: 1.8395386}
+  m_margin: {x: 8.167877, y: 29.667847, z: -186.29053, w: 163.63937}
   m_textInfo:
     textComponent: {fileID: 785651895}
     characterCount: 8
@@ -704,7 +704,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -11.609711, y: -211.36475, z: 647.9248, w: 634.7538}
+  m_margin: {x: 14.029236, y: -211.36475, z: 676.2527, w: 654.9939}
   m_textInfo:
     textComponent: {fileID: 1224171711}
     characterCount: 16
