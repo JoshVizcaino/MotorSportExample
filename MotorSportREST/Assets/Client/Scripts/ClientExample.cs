@@ -9,7 +9,7 @@ using UnityEngine;
 public class ClientExample : MonoBehaviour
 {
     [SerializeField]
-    private string baseUrl = "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/ocr?language=unk&detectOrientation=true";
+    private string baseUrl = "https://uksouth.api.cognitive.microsoft.com/vision/v2.0/ocr?language=unk&detectOrientation=true";
 
     [SerializeField]
     private string clientId;
