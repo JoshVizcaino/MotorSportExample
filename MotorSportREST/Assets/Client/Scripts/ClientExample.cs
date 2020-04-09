@@ -6,89 +6,92 @@ using Client.Core.Models;
 using TMPro;
 using UnityEngine;
 
-public class ClientExample : MonoBehaviour
+namespace Client
 {
-    [SerializeField]
-    private string baseUrl = "https://uksouth.api.cognitive.microsoft.com/vision/v2.0/ocr?language=unk&detectOrientation=true";
-
-    [SerializeField]
-    private string clientId;
-
-    [SerializeField]
-    private string clientSecret;
-
-    [SerializeField]
-    private string imageToOCR = "";
-
-    [SerializeField]
-    private TextMeshProUGUI header;
-
-    [SerializeField]
-    private TextMeshProUGUI wordsCapture;
-
-    void Start()
+    public class ClientExample : MonoBehaviour
     {
-        // setup the request header
-        RequestHeader clientSecurityHeader = new RequestHeader
+        [SerializeField]
+        private string baseUrl = "https://uksouth.api.cognitive.microsoft.com/vision/v2.0/ocr?language=unk&detectOrientation=true";
+
+        [SerializeField]
+        private string clientId;
+
+        [SerializeField]
+        private string clientSecret;
+
+        [SerializeField]
+        private string imageToOCR = "";
+
+        [SerializeField]
+        private TextMeshProUGUI header;
+
+        [SerializeField]
+        private TextMeshProUGUI wordsCapture;
+
+        void Start()
         {
-            Key = clientId,
-            Value = clientSecret
-        };
+            // setup the request header
+            RequestHeader clientSecurityHeader = new RequestHeader
+            {
+                Key = clientId,
+                Value = clientSecret
+            };
 
-        // setup the request header
-        RequestHeader contentTypeHeader = new RequestHeader
-        {
-            Key = "Content-Type",
-            Value = "application/json"
-        };
+            // setup the request header
+            RequestHeader contentTypeHeader = new RequestHeader
+            {
+                Key = "Content-Type",
+                Value = "application/json"
+            };
 
-        // validation
-        if (string.IsNullOrEmpty(imageToOCR))
-        {
-            Debug.LogError("imageToOCR needs to be set through the inspector...");
-            return;
-        }
+            // validation
+            if (string.IsNullOrEmpty(imageToOCR))
+            {
+                Debug.LogError("imageToOCR needs to be set through the inspector...");
+                return;
+            }
 
-        // build image url required by Azure Vision OCR
-        ImageUrl imageUrl = new ImageUrl { Url = imageToOCR };
+            // build image url required by Azure Vision OCR
+            ImageUrl imageUrl = new ImageUrl { Url = imageToOCR };
 
-        // send a post request
-        StartCoroutine(InterviewClient.Instance.HttpPost(baseUrl, JsonUtility.ToJson(imageUrl), (r) => OnRequestComplete(r), new List<RequestHeader>
+            // send a post request
+            StartCoroutine(InterviewClient.Instance.HttpPost(baseUrl, JsonUtility.ToJson(imageUrl), (r) => OnRequestComplete(r), new List<RequestHeader>
         {
             clientSecurityHeader,
             contentTypeHeader
         }));
-    }
+        }
 
-    void OnRequestComplete(Response response)
-    {
-        Debug.Log($"Status Code: {response.StatusCode}");
-        Debug.Log($"Data: {response.Data}");
-        Debug.Log($"Error: {response.Error}");
-
-        if (string.IsNullOrEmpty(response.Error) && !string.IsNullOrEmpty(response.Data))
+        void OnRequestComplete(Response response)
         {
-            AzureOCRResponse azureOCRResponse = JsonUtility.FromJson<AzureOCRResponse>(response.Data);
+            Debug.Log($"Status Code: {response.StatusCode}");
+            Debug.Log($"Data: {response.Data}");
+            Debug.Log($"Error: {response.Error}");
 
-            header.text = $"Orientation: {azureOCRResponse.orientation} Language: {azureOCRResponse.language} Text Angle: {azureOCRResponse.textAngle}";
-
-            string words = string.Empty;
-            foreach (var region in azureOCRResponse.regions)
+            if (string.IsNullOrEmpty(response.Error) && !string.IsNullOrEmpty(response.Data))
             {
-                foreach (var line in region.lines)
+                AzureOCRResponse azureOCRResponse = JsonUtility.FromJson<AzureOCRResponse>(response.Data);
+
+                header.text = $"Orientation: {azureOCRResponse.orientation} Language: {azureOCRResponse.language} Text Angle: {azureOCRResponse.textAngle}";
+
+                string words = string.Empty;
+                foreach (var region in azureOCRResponse.regions)
                 {
-                    foreach (var word in line.words)
+                    foreach (var line in region.lines)
                     {
-                        words += word.text + "\n";
+                        foreach (var word in line.words)
+                        {
+                            words += word.text + "\n";
+                        }
                     }
                 }
+                wordsCapture.text = words;
             }
-            wordsCapture.text = words;
         }
-    }
 
-    public class ImageUrl
-    {
-        public string Url;
+        public class ImageUrl
+        {
+            public string Url;
+        }
     }
 }

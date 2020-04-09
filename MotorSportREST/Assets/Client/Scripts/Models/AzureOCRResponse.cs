@@ -1,37 +1,39 @@
 ﻿using System;
 
-[Serializable]
-public class AzureOCRResponse
-{
-    public string language;
 
-    public decimal textAngle;
+    [Serializable]
+    public class AzureOCRResponse
+    {
+        public string language;
 
-    public string orientation;
+        public decimal textAngle;
 
-    public AzureOCRRegion[] regions;
-}
+        public string orientation;
 
-[Serializable]
-public class AzureOCRRegion
-{
-    public string boundingBox;
-    public AzureOCRLine[] lines;
-}
+        public AzureOCRRegion[] regions;
+    }
 
-[Serializable]
-public class AzureOCRLine
-{
-    public string boundingBox;
+    [Serializable]
+    public class AzureOCRRegion
+    {
+        public string boundingBox;
+        public AzureOCRLine[] lines;
+    }
 
-    public AzureOCRWord[] words;
-}
+    [Serializable]
+    public class AzureOCRLine
+    {
+        public string boundingBox;
+
+        public AzureOCRWord[] words;
+    }
 
 
-[Serializable]
-public class AzureOCRWord
-{
-    public string boundingBox;
+    [Serializable]
+    public class AzureOCRWord
+    {
+        public string boundingBox;
 
-    public string text;
-}
+        public string text;
+    }
+
