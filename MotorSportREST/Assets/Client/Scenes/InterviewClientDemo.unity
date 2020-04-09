@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -129,8 +130,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 557689522}
-  - component: {fileID: 557689521}
   - component: {fileID: 557689520}
+  - component: {fileID: 557689521}
   m_Layer: 0
   m_Name: RestWebClient
   m_TagString: Untagged
@@ -147,15 +148,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 557689519}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3561c01ded474249ba91baee96d76a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 96d065747a4eccb4aad4565f21627b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseUrl: https://httpbin.org/get
-  clientId: Ocp-Apim-Subscription-Key
-  clientSecret: 563683642672470c865d56cf04e10947
-  imageToOCR: https://pbs.twimg.com/profile_banners/562602850/1503095529/1500x500
-  header: {fileID: 785651895}
-  wordsCapture: {fileID: 1224171711}
 --- !u!114 &557689521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,9 +160,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 557689519}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3127374eee9fa49c88937d837bf3e650, type: 3}
+  m_Script: {fileID: 11500000, guid: b2a2dbbb4bcd458479c0d6189a90b57c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseUrl: https://uksouth.api.cognitive.microsoft.com/vision/v2.0/ocr?language=unk&detectOrientation=true
+  clientId: Ocp-Apim-Subscription-Key
+  clientSecret: 1475943e1f65429e8dc7b43dba1bac65
+  imageToOCR: https://res.cloudinary.com/teepublic/image/private/s--5nF9d_Dl--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_484849,e_outline:48/co_484849,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1580748084/production/designs/7817913_1.jpg
+  header: {fileID: 785651895}
+  wordsCapture: {fileID: 1224171711}
 --- !u!4 &557689522
 Transform:
   m_ObjectHideFlags: 0
@@ -207,8 +208,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
