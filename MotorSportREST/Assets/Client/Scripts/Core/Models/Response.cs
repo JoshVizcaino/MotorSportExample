@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace Client.Core.Models
 {
@@ -11,6 +12,10 @@ namespace Client.Core.Models
         public string Data { get; set; }
 
         public Dictionary<string, string> Headers { get; set; }
+
     }
+
+
+
 }
 
