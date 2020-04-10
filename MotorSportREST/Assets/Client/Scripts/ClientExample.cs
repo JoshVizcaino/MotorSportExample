@@ -30,6 +30,7 @@ namespace Client
 
         void Start()
         {
+
             // setup the request header
             RequestHeader clientSecurityHeader = new RequestHeader
             {

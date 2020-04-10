@@ -5,26 +5,26 @@ using Client.Core;
 using Client.Core.Models;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using UnityEngine;
+
 
 
 
 namespace Client
 {
+    
     public class HeroClientExample : MonoBehaviour
     {
 
         [SerializeField]
-        private string baseUrl = "https://superheroapi.com/api/3991167154234731";
+        private string baseUrl = "https://superheroapi.com/api/3991167154234731/";
 
         [SerializeField]
         private string clientId;
 
         [SerializeField]
         private string clientSecret;
-
-        [SerializeField]
-        private string imageToOCR = "";
 
         [SerializeField]
         private TextMeshProUGUI heroNameText, heroIdText;
@@ -35,52 +35,78 @@ namespace Client
         [SerializeField]
         private RawImage heroRawImage;
 
+        private string jsonurl;
+
         void Start()
         {
-
-            // build image url required by Azure Vision OCR
-            ImageUrl imageUrl = new ImageUrl { Url = imageToOCR };
+       
 
         }
 
         void OnRequestComplete(Response response)
         {
+
             Debug.Log($"Status Code: {response.StatusCode}");
             Debug.Log($"Data: {response.Data}");
             Debug.Log($"Error: {response.Error}");
 
             if (string.IsNullOrEmpty(response.Error) && !string.IsNullOrEmpty(response.Data))
             {
-                HeroAPIResponse heroAPIresponse = JsonUtility.FromJson<HeroAPIResponse>(response.Data);
-
-                heroNameText.text = $"{heroAPIresponse.name}";
-
-                for (int i = 0; i < length; i++)
-                {
-
-                }
-
-                string skills = string.Empty;
-                foreach (var result in heroAPIresponse.results)
-                {
-                    foreach (var statistic in result.stats)
-                    {
-                        foreach (var statname in statistic.statnames)
-                        {
-                            skills += statname.text;
-                        }
-                    }
-                    heroNameText.text = $"{result.name}";
-                    heroIdText.text = $"{result.id}";
-                }
                 
-                heroSkillsTextArray[0].text = skills;
+                string skills = string.Empty;
+                skills = response.Data.ToString();
+                string[] words = skills.Split('"');
+                heroNameText.text = $"Name: {words[11]}";
+                heroIdText.text = $"ID: {words[7]}";
+                for (int i = 0; i < words.Length; i++)
+                {
+                    Debug.Log("WORD: " + words[i] + " POWERS" + i.ToString());
+
+                    //heroSkillsTextArray[i].text = words[i + 15];
+                }
+                foreach (var skill in heroSkillsTextArray)
+                {
+                    for (int i = 0; i < words.Length; i++)
+                    {
+                        skill.text = words[i + 15];
+                    }
+                }
+
+
             }
+
         }
 
-        void OnRandomButtonPress()
+        void OnRequestComplete2(Response response)
+        {
+
+            Debug.Log($"Status Code: {response.StatusCode}");
+            Debug.Log($"Data: {response.Data}");
+            Debug.Log($"Error: {response.Error}");
+
+            if (string.IsNullOrEmpty(response.Error) && !string.IsNullOrEmpty(response.Data))
+            {
+
+                string skills = string.Empty;
+                skills = response.Data.ToString();
+                string[] words = skills.Split('"');
+                UnityWebRequest heroSpriteRequest = UnityWebRequestTexture.GetTexture(words[15]);
+                heroRawImage.texture = DownloadHandlerTexture.GetContent(heroSpriteRequest);
+                heroRawImage.texture.filterMode = FilterMode.Point;
+
+            }
+
+        }
+
+        public void OnRandomButtonPress()
         {
             int randomHeroIDindex = Random.Range(1, 732);
+
+            string heroURL1 = baseUrl + randomHeroIDindex.ToString() + "/powerstats";
+
+            string heroURL2 = baseUrl + randomHeroIDindex.ToString() + "/image";
+
+            jsonurl = heroURL1;
 
             heroRawImage.texture = Texture2D.blackTexture;
 
@@ -99,24 +125,16 @@ namespace Client
                 Value = "application/json"
             };
 
-            // send a post request
-            StartCoroutine(InterviewClient.Instance.HttpPost(baseUrl, JsonUtility.ToJson(baseUrl), (r) => OnRequestComplete(r), new List<RequestHeader>
-            {
-                contentTypeHeader
-            }));
-
+            // send a get request
+            StartCoroutine(InterviewClient.Instance.HttpGet(heroURL1, (r) => OnRequestComplete(r)));
+            //StartCoroutine(InterviewClient.Instance.HttpGet(heroURL2, (r) => OnRequestComplete2(r)));
         }
 
-        public class ImageUrl
+        public class HeroUrl
         {
-            public string Url;
+            public string Url { get; set; }
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
 

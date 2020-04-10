@@ -2,29 +2,28 @@
 
 public class HeroAPIResponse
 {
-    public HeroResponseResults[] results;
+    public HeroResponse[] response;
 }
 
 [Serializable]
-public class HeroResponseResults
+public class HeroResponse
 {
     public string name;
 
     public string id;
 
-    public HeroResponsePowerstats[] stats;
+    public string intelligence;
+
+    public string strength;
+
+    public string speed;
+
+    public string durability;
+
+    public string power;
+
+    public string combat;
 }
 
-[Serializable]
-public class HeroResponsePowerstats
-{
-    public HeroResponseStatNames[] statnames;
-}
-
-[Serializable]
-public class HeroResponseStatNames
-{
-    public string text;
-}
 
 
