@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseUrl: https://superheroapi.com/api/3991167154234731
-  clientId: Ocp-Apim-Subscription-Key
-  clientSecret: 1475943e1f65429e8dc7b43dba1bac65
+  clientId: 
+  clientSecret: 3991167154234731
   imageToOCR: https://spzone-simpleprogrammer.netdna-ssl.com/wp-content/uploads/2018/01/How-To-Get-Started-In-Game-Development.png
   header: {fileID: 785651895}
   wordsCapture: {fileID: 1224171711}
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 8.167877, y: 29.667847, z: -186.29053, w: 163.63937}
+  m_margin: {x: 8.167877, y: 29.667847, z: 396.8745, w: 182.75189}
   m_textInfo:
     textComponent: {fileID: 785651895}
     characterCount: 8
@@ -704,7 +704,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14.029236, y: -382.32172, z: 676.2527, w: 654.9939}
+  m_margin: {x: 290.8567, y: -382.32172, z: 957.34033, w: 707.7163}
   m_textInfo:
     textComponent: {fileID: 1224171711}
     characterCount: 16
