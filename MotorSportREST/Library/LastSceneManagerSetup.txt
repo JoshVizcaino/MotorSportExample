@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Client/Scenes/InterviewSuperHeroClientDemo.unity
+- path: Assets/Client/Scenes/InterviewAzureClientDemo.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

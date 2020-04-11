@@ -35,7 +35,7 @@ namespace Client
         [SerializeField]
         private RawImage heroRawImage;
 
-        private string jsonurl;
+        private string heroImageUrl;
 
         void Start()
         {
@@ -52,32 +52,22 @@ namespace Client
 
             if (string.IsNullOrEmpty(response.Error) && !string.IsNullOrEmpty(response.Data))
             {
-                
-                string skills = string.Empty;
-                skills = response.Data.ToString();
-                string[] words = skills.Split('"');
-                heroNameText.text = $"Name: {words[11]}";
-                heroIdText.text = $"ID: {words[7]}";
-                for (int i = 0; i < words.Length; i++)
-                {
-                    Debug.Log("WORD: " + words[i] + " POWERS" + i.ToString());
-
-                    //heroSkillsTextArray[i].text = words[i + 15];
-                }
-                foreach (var skill in heroSkillsTextArray)
-                {
-                    for (int i = 0; i < words.Length; i++)
-                    {
-                        skill.text = words[i + 15];
-                    }
-                }
+                HeroAPIResponse heroAPIresponse = JsonUtility.FromJson<HeroAPIResponse>(response.Data);
+                heroNameText.text = $"Name: {heroAPIresponse.name}";
+                heroIdText.text = $"ID: {heroAPIresponse.id}";
+                heroSkillsTextArray[0].text = $"Intelligence: {heroAPIresponse.intelligence}";
+                heroSkillsTextArray[1].text = $"Strength: {heroAPIresponse.strength}";
+                heroSkillsTextArray[2].text = $"Speed: {heroAPIresponse.speed}";
+                heroSkillsTextArray[3].text = $"Durability: {heroAPIresponse.durability}";
+                heroSkillsTextArray[4].text = $"Power: {heroAPIresponse.power}";
+                heroSkillsTextArray[5].text = $"Combat: {heroAPIresponse.combat}";
 
 
             }
 
         }
 
-        void OnRequestComplete2(Response response)
+        IEnumerator OnRequestComplete2(Response response)
         {
 
             Debug.Log($"Status Code: {response.StatusCode}");
@@ -86,12 +76,19 @@ namespace Client
 
             if (string.IsNullOrEmpty(response.Error) && !string.IsNullOrEmpty(response.Data))
             {
+                HeroAPIResponse heroAPIresponse = JsonUtility.FromJson<HeroAPIResponse>(response.Data);              
+                string url = heroAPIresponse.url;
 
-                string skills = string.Empty;
-                skills = response.Data.ToString();
-                string[] words = skills.Split('"');
-                UnityWebRequest heroSpriteRequest = UnityWebRequestTexture.GetTexture(words[15]);
-                heroRawImage.texture = DownloadHandlerTexture.GetContent(heroSpriteRequest);
+                UnityWebRequest r = UnityWebRequestTexture.GetTexture(url);
+                yield return r.SendWebRequest();
+
+                if (r.isNetworkError || r.isHttpError)
+                {
+                    Debug.Log(r.error);
+                    yield break;
+                }
+
+                heroRawImage.texture = DownloadHandlerTexture.GetContent(r);
                 heroRawImage.texture.filterMode = FilterMode.Point;
 
             }
@@ -106,7 +103,6 @@ namespace Client
 
             string heroURL2 = baseUrl + randomHeroIDindex.ToString() + "/image";
 
-            jsonurl = heroURL1;
 
             heroRawImage.texture = Texture2D.blackTexture;
 
@@ -126,8 +122,8 @@ namespace Client
             };
 
             // send a get request
-            StartCoroutine(InterviewClient.Instance.HttpGet(heroURL1, (r) => OnRequestComplete(r)));
-            //StartCoroutine(InterviewClient.Instance.HttpGet(heroURL2, (r) => OnRequestComplete2(r)));
+            StartCoroutine(InterviewClient.Instance.HttpPost(heroURL1, JsonUtility.ToJson(heroURL1),(r) => OnRequestComplete(r)));
+            StartCoroutine(InterviewClient.Instance.HttpPost(heroURL2,JsonUtility.ToJson(heroURL2), (r) => StartCoroutine(OnRequestComplete2(r))));
         }
 
         public class HeroUrl
