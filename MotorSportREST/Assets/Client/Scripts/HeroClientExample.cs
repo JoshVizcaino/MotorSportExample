@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 
@@ -47,6 +48,8 @@ namespace Client
         private TextMeshProUGUI winnerText;
         [SerializeField]
         private Button fightButton;
+        [SerializeField]
+        private TextMeshProUGUI heroList;
 
         private string heroImageUrl;
         private int count = 1;
@@ -63,8 +66,8 @@ namespace Client
         private int dur2;
         private int pwr2;
         private int cmb2;
-        private int score1;
-        private int score2;
+        private float score1;
+        private float score2;
         private bool b_hasScore = false;
         private bool b_hasScore2 = false;
 
@@ -97,7 +100,36 @@ namespace Client
                 int.TryParse(heroAPIresponse.durability, out dur);
                 int.TryParse(heroAPIresponse.power, out pwr);
                 int.TryParse(heroAPIresponse.combat, out cmb);
-                score1 = (intel + str + speed + dur + pwr + cmb);
+                float[] scores = new float[] { intel, str, speed, dur, pwr, cmb };
+                for (int i = 0; i < scores.Length; i++)
+                {
+                    if (scores[i] <= 25)
+                    {
+
+                    }
+                    else if (scores[i] > 25 && scores[i] <= 50)
+                    {
+                        float score;
+                        score = scores[i] * Random.Range(1.2f, 1.7f);
+                        scores[i] = score;
+                    }
+                    else if (scores[i] > 50 && scores[i] <= 75)
+                    {
+                        float score;
+                        score = scores[i] * Random.Range(1.8f, 2.3f);
+                        scores[i] = score;
+                    }
+                    else
+                    {
+                        float score;
+                        score = scores[i] * Random.Range(2.3f, 2.8f);
+                        scores[i] = score;
+                    }
+                }
+                foreach (var num in scores)
+                {
+                    score1 += num;
+                }
                 b_hasScore = true;
             }
             else if (string.IsNullOrEmpty(response.Error) && !string.IsNullOrEmpty(response.Data) && count == 2)
@@ -117,7 +149,36 @@ namespace Client
                 int.TryParse(heroAPIresponse.durability, out dur2);
                 int.TryParse(heroAPIresponse.power, out pwr2);
                 int.TryParse(heroAPIresponse.combat, out cmb2);
-                score2 = (intel2 + str2 + speed2 + dur2 + pwr2 + cmb2);
+                float[] scores = new float[] {intel2, str2, speed2, dur2, pwr2, cmb2};
+                for (int i = 0; i < scores.Length; i++)
+                {
+                    if (scores[i] <= 25)
+                    {
+
+                    }
+                    else if (scores[i] > 25 && scores[i] <= 50)
+                    {
+                        float score;
+                        score = scores[i] * Random.Range(1.2f, 1.7f);
+                        scores[i] = score;
+                    }
+                    else if (scores[i] > 50 && scores[i] <= 75)
+                    {
+                        float score;
+                        score = scores[i] * Random.Range(1.8f, 2.3f);
+                        scores[i] = score;
+                    }
+                    else
+                    {
+                        float score;
+                        score = scores[i] * Random.Range(2.3f, 2.8f);
+                        scores[i] = score;
+                    }
+                }
+                foreach (var num in scores)
+                {
+                    score2 += num;
+                }
                 b_hasScore2 = true;
             };
 
@@ -259,6 +320,19 @@ namespace Client
             }
             
         }
+
+        public void ChangeScene()
+        {
+            SceneManager.LoadScene(1, LoadSceneMode.Single);
+        }
+        private void Update()
+        {
+            if (Input.GetKey("escape"))
+            {
+                Application.Quit();
+            }
+        }
+
 
 
     }

@@ -6,6 +6,7 @@ using Client.Core.Models;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Client
 {
@@ -65,7 +66,7 @@ namespace Client
                     {
                         foreach (var word in line.words)
                         {
-                            words += word.text + "\n";
+                            words += word.text + " : ";
                         }
                     }
                 }
@@ -131,5 +132,19 @@ namespace Client
             }
             
         }
+
+        public void ChangeScene()
+        {
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKey("escape"))
+            {
+                Application.Quit();
+            }
+        }
+
     }
 }

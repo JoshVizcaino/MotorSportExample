@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Client/Scenes/InterviewSuperHeroClientDemo.unity
     guid: 76d120dc613feaf45a2d036d7579743b
+  - enabled: 1
+    path: Assets/Client/Scenes/InterviewAzureClientDemo.unity
+    guid: 34677757cff094d409aee1c618309bc5
   m_configObjects: {}
